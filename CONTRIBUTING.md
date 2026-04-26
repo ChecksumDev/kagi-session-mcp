@@ -21,7 +21,7 @@ If your report is "Kagi changed something and now `kagi_search` returns nothing,
 
 ## Commit messages
 
-We follow [Conventional Commits](https://www.conventionalcommits.org/). The release-please workflow uses them to cut versions and changelogs, so this matters.
+We follow [Conventional Commits](https://www.conventionalcommits.org/). The release-please workflow uses them to cut versions, so this matters.
 
 Common types:
 

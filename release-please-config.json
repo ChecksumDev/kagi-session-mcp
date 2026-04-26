@@ -8,7 +8,7 @@
   "packages": {
     ".": {
       "package-name": "kagi-session-mcp",
-      "changelog-path": "CHANGELOG.md"
+      "skip-changelog": true
     }
   }
 }
