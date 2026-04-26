@@ -1,0 +1,93 @@
+[package]
+name = "kagi-session-mcp"
+version = "0.1.0"
+edition = "2024"
+authors = ["checksum <me@checksum.space>"]
+description = "MCP server that performs Kagi searches using a session token discovered from the user's browser"
+license = "MIT"
+repository = "https://github.com/checksumdev/kagi-session-mcp"
+homepage = "https://github.com/checksumdev/kagi-session-mcp"
+documentation = "https://docs.rs/kagi-session-mcp"
+readme = "README.md"
+keywords = ["mcp", "kagi", "search", "agent", "llm"]
+categories = ["command-line-utilities", "web-programming::http-client"]
+rust-version = "1.85"
+
+[dependencies]
+rmcp = { version = "1.5", features = ["server", "macros", "transport-io"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "signal", "sync"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+schemars = "1"
+
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "http2", "cookies", "gzip", "brotli", "json"] }
+url = "2"
+cookie_store = "0.22"
+reqwest_cookie_store = "0.10"
+
+rusqlite = { version = "0.39", features = ["bundled"] }
+scraper = "0.26"
+ego-tree = "0.11"
+regex = "1"
+
+aes-gcm = "0.10"
+base64 = "0.22"
+hex = "0.4"
+
+dirs = "6"
+thiserror = "2"
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+async-trait = "0.1"
+once_cell = "1"
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = [
+    "Win32_Foundation",
+    "Win32_Security_Cryptography",
+    "Win32_System_Memory",
+] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+security-framework = "3"
+pbkdf2 = "0.12"
+sha1 = "0.10"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+pbkdf2 = "0.12"
+sha1 = "0.10"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+
+[lints.rust]
+# unsafe is needed for Win32 DPAPI calls in adapters/crypto/windows.rs.
+# Warn rather than deny so reviewers notice new uses without blocking the build.
+unsafe_code = "warn"
+rust_2018_idioms = { level = "warn", priority = -1 }
+unreachable_pub = "warn"
+unused_lifetimes = "warn"
+unused_qualifications = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+# Allow the noisiest pedantic/nursery lints. These tend to fire on
+# idiomatic code without buying much real safety.
+module_name_repetitions = "allow"
+must_use_candidate = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+similar_names = "allow"
+too_many_lines = "allow"
+multiple_crate_versions = "allow"
+cast_possible_truncation = "allow"
+cast_sign_loss = "allow"
+cast_precision_loss = "allow"
+cast_possible_wrap = "allow"
