@@ -1,6 +1,6 @@
 [package]
 name = "kagi-session-mcp"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["checksum <me@checksum.space>"]
 description = "MCP server that performs Kagi searches using a session token discovered from the user's browser"
